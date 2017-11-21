@@ -1,4 +1,4 @@
-let threedigits = (100..999).collect::<Vec<u32>>();
+let threedigits = (100..1000).collect::<Vec<u32>>();
 
 fn inversion(num: u32) -> u32 {
     num.to_string().chars().rev().collect::<String>().parse::<u32>().unwrap()
