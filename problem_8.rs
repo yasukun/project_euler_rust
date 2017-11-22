@@ -22,12 +22,9 @@ let target = r#"
 "#;
 
 let nums =  target.replace("\n", "").replace(" ", "");
-let limit = nums.len() - 13;
-let mut maxproduct =  0;
-for i in 0..limit {
-    let product = nums.chars().skip(i).take(13).map(|s| s.to_string().parse::<u64>().unwrap()).product::<u64>();
-    if product > maxproduct {
-        maxproduct = product
-    }
-}
+let limit = nums.len() - 12;
+let maxproduct = (0..limit).map(|i| {
+    nums.chars().skip(i).take(13).map(|s| s.to_string().parse::<u64>().unwrap()).product::<u64>()
+}).max().unwrap();
+
 println!("{}", maxproduct);
