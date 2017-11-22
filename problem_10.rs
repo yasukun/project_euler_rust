@@ -12,4 +12,4 @@ fn isprime(n: u32) -> bool {
 }
 
 println!("{:?}",
-         (2..).filter(|n| isprime(*n)).take_while(|x| *x <= 2000000).sum::<u32>());
+         (2..).filter(|n| isprime(*n)).take_while(|x| *x < 2000000).sum::<u32>());
