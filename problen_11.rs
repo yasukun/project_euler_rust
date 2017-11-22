@@ -21,5 +21,7 @@ let target = r#"
 01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48
 "#;
 
-let nums =  target.split_whitespace().collect::<Vec<&str>>();
-println!("{:?}", nums);
+let nums =  target.split_whitespace().map(|s| s.to_string().parse::<u32>().unwrap()).collect::<Vec<u32>>();
+let mat: Vec<_> = nums.chunks(20).collect();
+
+println!("{:?}", mat);  
