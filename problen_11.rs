@@ -24,4 +24,22 @@ let target = r#"
 let nums =  target.split_whitespace().map(|s| s.to_string().parse::<u32>().unwrap()).collect::<Vec<u32>>();
 let mat: Vec<_> = nums.chunks(20).collect();
 
-println!("{:?}", mat);  
+let mut maxproduct = 0;
+for i in 0..39 {
+    let r1 = if i < 20 { 0 } else {i-19};
+    let r2 = i - r1 + 1;
+    let mut v = Vec::new();
+    for j in r1..r2 {
+        v.push(mat[j][i-j]);
+    }
+    let vlen = v.len();    
+    for i in 0..vlen {
+        let product = v.iter().skip(0).take(4).product();
+        maxproduct = cmp::max(maxproduct, product);
+    }
+    print!("{:?} {:?}", v, maxproduct);
+    print!("\n");
+}
+
+
+println!("hello");  
