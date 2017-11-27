@@ -63,7 +63,7 @@ for ypos in 0..20 {
 for ypos in 0..20 {
     for xpos in 0..20 {
         let product: u32 = mat.iter().skip(ypos).take(4).enumerate().map(|(i, r)| {
-            let pos: i64 = xpos - i as i64;
+            let pos: i32 = xpos - i as i32;
             if pos >=  0 {
                 let val = match r.get(pos as usize) {
                     Some(x) => *x as u32,
