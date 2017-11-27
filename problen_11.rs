@@ -1,3 +1,5 @@
+use std::cmp;
+
 let target = r#"
 08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08
 49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00
@@ -22,24 +24,57 @@ let target = r#"
 "#;
 
 let nums =  target.split_whitespace().map(|s| s.to_string().parse::<u32>().unwrap()).collect::<Vec<u32>>();
-let mat: Vec<_> = nums.chunks(20).collect();
+let mat: Vec<&[u32]> = nums.chunks(20).collect();
 
 let mut maxproduct = 0;
-for i in 0..39 {
-    let r1 = if i < 20 { 0 } else {i-19};
-    let r2 = i - r1 + 1;
-    let mut v = Vec::new();
-    for j in r1..r2 {
-        v.push(mat[j][i-j]);
-    }
-    let vlen = v.len();    
-    for i in 0..vlen {
-        let product = v.iter().skip(0).take(4).product();
+
+
+// right
+for record in mat.iter() {
+    for xpos in 0..20 {
+        let product: u32 = record.iter().skip(xpos).take(4).product();
         maxproduct = cmp::max(maxproduct, product);
     }
-    print!("{:?} {:?}", v, maxproduct);
-    print!("\n");
 }
 
+// down
+for ypos in 0..20 {
+    for xpos in 0..20 {
+        let product: u32 = mat.iter().skip(ypos).take(4).map(|r| r[xpos]).product();
+        maxproduct = cmp::max(maxproduct, product);
+    }
+}
 
-println!("hello");  
+// diag right
+for ypos in 0..20 {
+    for xpos in 0..20 {
+        let product: u32 = mat.iter().skip(ypos).take(4).enumerate().map(|(i, r)| {
+            let val = match r.get(xpos +  i as usize) {
+                Some(x) => *x,
+                _ => 1u32, 
+            };                            
+            val
+        }).product();
+        maxproduct = cmp::max(maxproduct, product);
+    }
+}
+
+// diag left
+for ypos in 0..20 {
+    for xpos in 0..20 {
+        let product: u32 = mat.iter().skip(ypos).take(4).enumerate().map(|(i, r)| {
+            let pos: i64 = xpos - i as i64;
+            if pos >=  0 {
+                let val = match r.get(pos as usize) {
+                    Some(x) => *x as u32,
+                    _ => 1u32, 
+                };
+                return val;
+            }
+            1u32
+        }).product();
+        maxproduct = cmp::max(maxproduct, product);
+    }
+}
+
+println!("{}", maxproduct); 
