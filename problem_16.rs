@@ -1,6 +1,6 @@
 extern crate num;
 
-use num::bigint::{BigInt, ToBigInt};
+use num::bigint::ToBigInt;
 use std::iter;
 
 let target = iter::repeat(2).take(1000).map(|c| c.to_bigint().unwrap()).fold(1.to_bigint().unwrap(), |sum, i| sum.checked_mul(&i).unwrap());
